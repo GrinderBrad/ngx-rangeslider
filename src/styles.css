@@ -25,13 +25,16 @@
     background:lightgray;
     border-radius:5px;
 }
+.toolTipCustom {
+    font-size: 40px;
+    top: 40px;
+}
 
 .stepSliderClass
 {
     width:20px;
     height:20px;
-    background:lightgray;
-    border-radius:50%;    
+    background:lightgray; 
     border:1px solid royalblue;
     bottom:-50% !important;
 }

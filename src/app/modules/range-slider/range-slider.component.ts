@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, HostListener,forwardRef, OnInit,OnChanges ,Renderer2, AfterViewInit,IterableDiffers, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener,forwardRef, OnInit,OnChanges ,Renderer2,IterableDiffers, Input, Output, EventEmitter, SimpleChanges, ViewChildren, QueryList} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, NG_VALIDATORS,FormControl } from '@angular/forms';
 export enum KEY_CODE {
   RIGHT_ARROW = 39,
@@ -73,6 +73,7 @@ export class RangeSliderComponent implements ControlValueAccessor {
   @ViewChild('minSlider') minSlider: ElementRef;
   @ViewChild('maxSlider') maxSlider: ElementRef;
   @ViewChild('sliderHilight') sliderHilight: ElementRef;
+  @ViewChildren('toolTipEl') toolTipEl: QueryList<ElementRef>;
   numWidth:number;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -87,6 +88,17 @@ export class RangeSliderComponent implements ControlValueAccessor {
       this.renderer.removeClass(this.sliderHilight.nativeElement, 'dhighlightClass');
       this.renderer.addClass(this.sliderHilight.nativeElement, clas);
     }
+  }
+  @Input()  toolTipClass:string;
+  setToolTipClass(clas:string) {
+    setTimeout(() => {
+      const elements = this.toolTipEl.toArray().forEach((el: ElementRef) => {
+        if(clas && el.nativeElement.className.includes('toolTipClass')) {
+          this.renderer.removeClass(el.nativeElement, 'toolTipClass');
+          this.renderer.addClass(el.nativeElement, clas);
+        }
+      });
+    }, 1);
   }
   @Input()  barClass:string;
   setBarClass(clas: string) {  
@@ -134,14 +146,13 @@ export class RangeSliderComponent implements ControlValueAccessor {
     }
 
   }
- 
 
   update(range: number[]) {
-
     this.range = [...range];
     this.rangeCache=(JSON.parse(JSON.stringify(range)));    
     this.setBarClass(this.barClass);
     this.setSliderClass(this.sliderClass);
+    this.setToolTipClass(this.toolTipClass);
     this.sethighlightClass(this.highlightClass);
     this.getWidth();
   }
@@ -195,7 +206,6 @@ getlength(num) {
     if (this.bar && this.minSlider && this.range && this.range[0] !== undefined) {
       this.sliderWidth = this.minSlider.nativeElement.offsetWidth;
       this.sliderHeight=this.minSlider.nativeElement.offsetHeight;
-      this.toolTipTop=(this.sliderHeight+10)*-1;
       this.barWidth = this.bar.nativeElement.offsetWidth;
       if (this.sliderWidth && this.barWidth) {
         this.rangeDiff = this.max - this.min;

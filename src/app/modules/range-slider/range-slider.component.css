@@ -32,7 +32,11 @@ div{
     height:10px;
     background:lightgray;
 }
-
+.toolTipClass {
+    top: -3px;
+    z-index:2000;
+    font-size:12px;
+}
 .dsliderClass
 {
     width:20px;
@@ -46,6 +50,7 @@ div{
 .tooltipText{
     text-align: center;
     padding: 5px 0;
+    font-size: 20px;
     position: absolute;
     bottom: 72%;
     left: 13%;

@@ -12,7 +12,7 @@
     </article>
     <article>
         <h4 class="mBottom">Slider with Step</h4>
-        <range-slider [min]="min1" [max]="max1" [step]="step" [(ngModel)]="stepRange" 
+        <range-slider [min]="min1" [max]="max1" [step]="step" [toolTipClass]="'toolTipCustom'" [(ngModel)]="stepRange" 
         (onRangeChange)="rangeChanged($event)" [highlightClass]="'stephighlightClass'"
          [barClass]="'stepBarClass'" [sliderClass]="'stepSliderClass'"></range-slider>
         
